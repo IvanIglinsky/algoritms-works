@@ -94,10 +94,10 @@ int main()
 	srand(time(0));
 	int n;
 	float i=0,  x=0, tmp, HeapArr[10001];
-	//HeapSort
-	printf("Сортування масиву методом (Heap Sort)\n");
 	printf("Введіть розмірність масиву: ");
 	scanf_s("%d", &n);
+	//HeapSort
+	printf("Сортування масиву методом (Heap Sort)\n");
 	printf("\nМасив до сортування:{ ");
 	for (int i = 0; i < n; i++)
 	{
