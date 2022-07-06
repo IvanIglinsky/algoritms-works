@@ -1,0 +1,15 @@
+E:\Algoritmi and struct\Lab 4_\Main\bin\Debug\net6.0\Lab 4.3.exe
+E:\Algoritmi and struct\Lab 4_\Main\bin\Debug\net6.0\Lab 4.3.deps.json
+E:\Algoritmi and struct\Lab 4_\Main\bin\Debug\net6.0\Lab 4.3.runtimeconfig.json
+E:\Algoritmi and struct\Lab 4_\Main\bin\Debug\net6.0\Lab 4.3.dll
+E:\Algoritmi and struct\Lab 4_\Main\bin\Debug\net6.0\Lab 4.3.pdb
+E:\Algoritmi and struct\Lab 4_\Main\obj\Debug\net6.0\Lab 4.3.csproj.AssemblyReference.cache
+E:\Algoritmi and struct\Lab 4_\Main\obj\Debug\net6.0\Lab 4.3.GeneratedMSBuildEditorConfig.editorconfig
+E:\Algoritmi and struct\Lab 4_\Main\obj\Debug\net6.0\Lab 4.3.AssemblyInfoInputs.cache
+E:\Algoritmi and struct\Lab 4_\Main\obj\Debug\net6.0\Lab 4.3.AssemblyInfo.cs
+E:\Algoritmi and struct\Lab 4_\Main\obj\Debug\net6.0\Lab 4.3.csproj.CoreCompileInputs.cache
+E:\Algoritmi and struct\Lab 4_\Main\obj\Debug\net6.0\Lab 4.3.dll
+E:\Algoritmi and struct\Lab 4_\Main\obj\Debug\net6.0\refint\Lab 4.3.dll
+E:\Algoritmi and struct\Lab 4_\Main\obj\Debug\net6.0\Lab 4.3.pdb
+E:\Algoritmi and struct\Lab 4_\Main\obj\Debug\net6.0\Lab 4.3.genruntimeconfig.cache
+E:\Algoritmi and struct\Lab 4_\Main\obj\Debug\net6.0\ref\Lab 4.3.dll

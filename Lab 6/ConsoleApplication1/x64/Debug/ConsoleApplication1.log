@@ -1,0 +1,7 @@
+﻿  ConsoleApplication1.cpp
+E:\Algoritmi and struct\Lab 6\ConsoleApplication1\ConsoleApplication1.cpp(29,11): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
+E:\Algoritmi and struct\Lab 6\ConsoleApplication1\ConsoleApplication1.cpp(38,15): warning C4244: инициализация: преобразование "int" в "float", возможна потеря данных
+E:\Algoritmi and struct\Lab 6\ConsoleApplication1\ConsoleApplication1.cpp(40,26): warning C4244: =: преобразование "float" в "int", возможна потеря данных
+E:\Algoritmi and struct\Lab 6\ConsoleApplication1\ConsoleApplication1.cpp(94,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+E:\Algoritmi and struct\Lab 6\ConsoleApplication1\ConsoleApplication1.cpp(104,19): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+  ConsoleApplication1.vcxproj -> E:\Algoritmi and struct\Lab 6\x64\Debug\ConsoleApplication1.exe

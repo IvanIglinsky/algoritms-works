@@ -1,0 +1,5 @@
+﻿  Lab 2.1.cpp
+E:\Algoritmi and struct\Lab 2\Lab 2.1\Lab 2.1.cpp(8,44): warning C4244: инициализация: преобразование "double" в "unsigned __int64", возможна потеря данных
+E:\Algoritmi and struct\Lab 2\Lab 2.1\Lab 2.1.cpp(17,37): warning C4244: =: преобразование "unsigned __int64" в "unsigned int", возможна потеря данных
+E:\Algoritmi and struct\Lab 2\Lab 2.1\Lab 2.1.cpp(43,25): warning C4244: +=: преобразование "double" в "float", возможна потеря данных
+  Lab 2.1.vcxproj -> E:\Algoritmi and struct\Lab 2\x64\Debug\Lab 2.1.exe

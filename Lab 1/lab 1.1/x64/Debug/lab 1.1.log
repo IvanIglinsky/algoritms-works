@@ -1,0 +1,6 @@
+﻿  lab 1.1.cpp
+E:\Algoritmi and struct\Lab 1\lab 1.1\lab 1.1.cpp(46,12): warning C4477: "printf": в строке форматирования "%d" требуется аргумент типа "int", но вариативный аргумент "1" имеет тип "size_t"
+E:\Algoritmi and struct\Lab 1\lab 1.1\lab 1.1.cpp(46,12): message : рекомендуется использовать "%zd" в строке форматирования
+E:\Algoritmi and struct\Lab 1\lab 1.1\lab 1.1.cpp(52,12): warning C4477: "printf": в строке форматирования "%d" требуется аргумент типа "int", но вариативный аргумент "1" имеет тип "size_t"
+E:\Algoritmi and struct\Lab 1\lab 1.1\lab 1.1.cpp(52,12): message : рекомендуется использовать "%zd" в строке форматирования
+  lab 1.1.vcxproj -> E:\Algoritmi and struct\Lab 1\Lab 1.2\x64\Debug\lab 1.1.exe
