@@ -3,90 +3,85 @@
 #include <Windows.h>
 #include <chrono>
 #include <math.h>
-
-void HeapSort(float* HeapArr, int n, int i)
+private static void HeapSort(float[] array)
 {
-	float tmp;
-	int larg = i;
-	int left = 2 * i + 1;
-	int right = 2 * i + 2;
-	if (left<n && HeapArr[left]>HeapArr[larg])//якщо лівий нащадок > корінь
-		larg = left;
-	if (right<n && HeapArr[right]>HeapArr[larg])//якщо правий нащадок > корінь
-		larg = right;
-	if (larg != i)//Якщо найбільший елемент не є коренем
+	int n = array.Length;
+
+	//Побудова кучі (перегрупування масиву)
+	for (int i = n / 2 - 1; i >= 0; i--)
 	{
-		tmp = HeapArr[i];
-		HeapArr[i] = HeapArr[larg];
-		HeapArr[larg] = tmp;
-		HeapSort(HeapArr, n, larg);//Рекурсивно перетворюємо в кучу піддерево з нащадків найбільшого елемента
+		Heapify(array, n, i);
+	}
+
+	for (int i = n - 1; i >= 0; i--)
+	{
+		float temp = array[0];
+		array[0] = array[i];
+		array[i] = temp;
+
+		Heapify(array, i, 0);
 	}
 }
-void ShellSort(int n, int Shellarr[])
+
+//Сортування Шелла
+private static void ShellSort(double[] arrayShell)
 {
-	
-	int s = 1;
-	int step = pow(2,s)-1, tmp = 0;
-	//Переставляєм елементи на кожні n/2, n/4, n/8, ... інтервали
-	while (step > 0)
+	int n = arrayShell.Length;
+	int s = 0;
+
+	while ((double)Math.Pow(2, s) + 1 <= n)//шукаємо найбільше s, яке задовільнить умову формули приросту
+		s++;
+	int step = (int)Math.Pow(2, s) + 1;//формула приросту стане кроком
+	double c;
+	while (s >= -1)//цикл сортування, який працюватиме поки s буде >= за -1
 	{
-		for (int i = 0; i < (n - step); i++)
+		for (int i = 0; i < (n - step); i++) // створюємо групу елементів
 		{
 			int j = i;
-			while (j >= 0 && Shellarr[j] > Shellarr[j + step])
+			while (j >= 0 && arrayShell[j] > arrayShell[j + step]) //сортуємо простими вставками
 			{
-				float tmp = Shellarr[j];
-				Shellarr[j] = Shellarr[j + step];
-				Shellarr[j + step] = tmp;
-				j--;
+				c = arrayShell[j];
+				arrayShell[j] = arrayShell[j + step];
+				arrayShell[j + step] = c; // міняємо значення місцями
+				j -= step; // переходимо до іншого елемента
 			}
 		}
-		s++;
-		step /= 2;
+		s--; //s зменшується на одиницю для того, щоб пройти по новоій групі
+		step = (int)Math.Pow(2, s) + 1; // Перераховуємо step з новим s, щоб в майбутньому дійти до 1
 	}
 }
-void CountSort(short CountArr[], int size) {
-	short output[10004]{};
-	// Знайти найбільший елемент масиву
-	short max = CountArr[0];
-	short min = CountArr[0];
-	for (int i = 1; i < size; i++) {
-		if (CountArr[i] > max)
-			max = CountArr[i];
+
+//Сортування підрахунком
+private static void CountingSort(short[] array)
+{
+	short max = array.Max();  //Максимальний елемент масиву
+	short min = array.Min(); //Мінімальний елемент масиву
+
+	short[] counts = new short[max - min + 1]; //Масив частот 
+	short[] output = new short[array.Length];
+
+	for (int i = 0; i < array.Length; i++)
+	{
+		//Частота появи кожного числа
+		counts[array[i] - min]++;
 	}
-	for (int i = 1; i < size; i++) {
-		if (CountArr[i] < min)
-			min = CountArr[i];
+	for (int i = 1; i < counts.Length; i++)
+	{
+		counts[i] += counts[i - 1];
 	}
-	// Розмір підрахунку має бути принаймні (max+1), але
-	// ми не можемо оголосити це як int count(max+1) у C як
-	// він не підтримує динамічний розподіл пам'яті.
-	// Отже, його розмір надається статично.
-	short count[10001]{};
-	// Ініціалізація масиву лічильників усіма нулями.
-	for (int i = 0; i <= max; ++i) {
-		count[i] = 0;
-	}
-	// Зберігає кількість кожного елемента
-	for (int i = 0; i < size; i++) {
-		count[CountArr[i]-min]++;
-	}
-	// Зберігає кумулятивну кількість кожного масиву
-	for (int i = 1; i <= max; i++) {
-		count[i] += count[i - 1];
-	}
-	// Знайти індекс кожного елемента вихідного масиву в масиві count, і
-	// розмістити елементи у вихідному масиві
-	for (int i = size-1 ; i >= 0; i--) {
-		output[count[CountArr[i] - min] -1] = CountArr[i];
-		count[CountArr[i]-min]--;
-	}
-	// Копіювати відсортовані елементи в оригінальний масив
-	for (int i = 0; i < size; i++) {
-		CountArr[i] = output[i];
+	for (int i = array.Length - 1; i >= 0; i--)
+	{
+		output[counts[array[i] - min] - 1] = array[i];
+		counts[array[i] - min]--;
 	}
 
+	//Повертаємо у вихідний масив відсортований вхідний
+	for (int i = 0; i < array.Length; i++)
+	{
+		array[i] = output[i];
+	}
 }
+
 
 int main()
 {

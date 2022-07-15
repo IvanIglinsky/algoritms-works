@@ -1,29 +1,24 @@
 ﻿#include <stdio.h>
-#include <windows.h>
-#include <time.h>
+#include <stdlib.h>
+#include<windows.h>
 #include <time.h>
 #include <chrono>
 #include <stdbool.h>
-#include <stdlib.h>
-#include "ConsoleApplication1.h"
-#define _CLIST_H
-#include <malloc.h>
-
+#define MAX_N 100000
 typedef int elemtype;
 struct elem {
-	elemtype value;
-	struct elem* next;
-	struct elem* prev;
+	elemtype* value;   // Значення змінної
+	struct elem* next; // Ссилка на наступний елемент
+	struct elem* prev; // Ссилка на попередній елемент списку
 };
 struct myList {
-	struct elem* head;
-	struct elem* tail;
-	int size;
+	struct elem* head;    // Перший елемент списку
+	struct elem* tail;   // Останнній елемент списку
+	size_t size; 		// Кількість елементів в списку
 };
-
 typedef struct elem cNode;
 typedef struct myList cList;
-
+// Створення пустого списку
 cList* createList(void) {
 	cList* list = (cList*)malloc(sizeof(cList));
 	if (list) {
@@ -32,22 +27,24 @@ cList* createList(void) {
 	}
 	return list;
 }
-bool isEmptyList(cList* list) {
-	return ((list->head == NULL) || (list->tail == NULL));
-}
+// Видалення списку
 void deleteList(cList* list) {
 	cNode* head = list->head;
 	cNode* next = NULL;
 	while (head) {
 		next = head->next;
 		free(head);
-		head = NULL;
 		head = next;
 	}
 	free(list);
 	list = NULL;
 }
-int pushBack(cList* list, elemtype data) {
+// Перевірка списку на пустоту
+bool isEmptyList(cList* list) {
+	return ((list->head == NULL) || (list->tail == NULL));
+}
+// Додавання нового вузла в кінець списку
+int pushBack(cList* list, elemtype* data) {
 	cNode* node = (cNode*)malloc(sizeof(cNode));
 	if (!node) {
 		return(-3);
@@ -65,7 +62,8 @@ int pushBack(cList* list, elemtype data) {
 	list->size++;
 	return(0);
 }
-int popBack(cList* list, elemtype data) {
+// Видалення вузла з кінця списку
+int popBack(cList* list, elemtype* data) {
 	cNode* node = NULL;
 	if (isEmptyList(list)) {
 		return(-4);
@@ -83,7 +81,8 @@ int popBack(cList* list, elemtype data) {
 	free(node);
 	return(0);
 }
-void printList(cList* list, void (*func)(elemtype)) {
+// Вивід списку в консоль
+void printList(cList* list, void (*func)(elemtype*)) {
 	cNode* node = list->head;
 	if (isEmptyList(list)) {
 		return;
@@ -93,240 +92,134 @@ void printList(cList* list, void (*func)(elemtype)) {
 		node = node->next;
 	}
 }
-//------------------------------------------------------------------------------
-typedef int elemtype2;
-struct elem2 {
-	elemtype2* value2;
-	struct elem2* next2;
-	struct elem2* prev2;
-};
-struct myList2 {
-	struct elem2* head2;
-	struct elem2* tail2;
-	int size2;
-};
-
-typedef struct elem2 cNode2;
-typedef struct myList2 cList2;
-
-cList2* createList2(void) {
-	cList2* list2 = (cList2*)malloc(sizeof(cList2));
-	if (list2) {
-		list2->size2 = 0;
-		list2->head2 = list2->tail2 = NULL;
-	}
-	return list2;
+cList* createList(void);
+void deleteList(cList* list);
+bool isEmptyList(cList* list);
+int pushBack(cList* list, elemtype* data);
+void printList(cList* list, void (*fun)(elemtype*));
+void printNode(elemtype* value) {
+	printf("%d ", *((int*)value));
 }
-bool isEmptyList2(cList2* list2) {
-	return ((list2->head2 == NULL) || (list2->tail2 == NULL));
-}
-void deleteList2(cList2* list2) {
-	cNode2* head = list2->head2;
-	cNode2* next = NULL;
-	while (head) {
-		next = head->next2;
-		free(head);
-		head = next;
-	}
-	free(list2);
-	list2 = NULL;
-}
-int pushBack2(cList2* list2, elemtype2* data) {
-	cNode2* node = (cNode2*)malloc(sizeof(cNode2));
-	if (!node) {
-		return(-3);
-	}
-	node->value2 = data;
-	node->next2 = NULL;
-	node->prev2 = list2->tail2;
-	if (!isEmptyList2(list2)) {
-		list2->tail2->next2 = node;
-	}
-	else {
-		list2->head2 = node;
-	}
-	list2->tail2 = node;
-	list2->size2++;
-	return(0);
-}
-int popBack2(cList2* list2, elemtype2* data) {
-	cNode2* node = NULL;
-	if (isEmptyList2(list2)) {
-		return(-4);
-	}
-	node = list2->tail2;
-	list2->tail2 = list2->tail2->prev2;
-	if (!isEmptyList2(list2)) {
-		list2->tail2->next2 = NULL;
-	}
-	else {
-		list2->head2 = NULL;
-	}
-	data = node->value2;
-	list2->size2--;
-	free(node);
-	return(0);
-}
-void printList2(cList2* list2, void (*func)(elemtype2*)) {
-	cNode2* node = list2->head2;
-
-	if (isEmptyList2(list2)) {
-		return;
-	}
-
-	while (node) {
-		func(node->value2);
-		node = node->next2;
-	}
-}
-
-void printMenu()
+void menu()
 {
 	system("cls");
-	printf("Виберіть метод сортування:\n");
-	printf("1-Сортування вибором(структура даних – двусвязний список)\n");
-	printf("2-Сортування вставками (структура даних – масив)\n");
-	printf("3-Сортування вставками(структура даних – двусвязний список)\n");
-	printf("4-Вихід\n");
-
+	printf("1. Сортування вибором (двусвязний список)\n");
+	printf("2. Сортування вставками (масив)\n");
+	printf("3. Сортування вставками (двусвязний список)\n");
+	printf("4. Вихід\n");
+	printf("Введіть пункт меню: ");
 }
-void printNode(elemtype value)
-{
-	printf("%d ", value);
-}
-void printNode2(elemtype2* value2)
-{
-	printf("%d ", *((int*)value2));
+int get_variant(int count) {
+	int variant;
+	scanf_s("%d", &variant);
+	return variant;
 }
 int main()
 {
-	SetConsoleCP(1251); SetConsoleOutputCP(1251);
-	int arr[100000], n, num, tmp;
-	printf("Оберіть кількість елементів в масиві для сортування: ");
-	scanf_s("%d", &n);
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+	cList* mylist = createList();
+	cList* mylist2 = createList();
+	int list[MAX_N], arr[MAX_N], a, b, n, c, min;
+	int variant, k;
+	srand(time(0));
+	printf("Введіть діапазон чисел: [a;b];\na="); scanf_s("%d", &a);
+	printf("b="); scanf_s("%d", &b);
+	printf("Кількість елементів:"); scanf_s("%d", &n);
 	do {
-		printMenu();
-		scanf_s("%d", &num);
-		switch (num)
+		menu();
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+		variant = get_variant(5);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+		switch (variant)
 		{
 		case 1:
 		{
-			cList* list = createList();
-			for (int i = 0; i < n; i++)
-			{
-				tmp = 100 + rand() % (-100 - 100 + 1);
-				pushBack(list, tmp);
-			}
-			printf("До сортування:{ ");
-			printList(list, printNode);
-			printf("}");
-			cNode* min;
-			cNode* builder;
-			cNode* checker;
-			builder = list->head;
-			min = builder->next;
-			checker = min->next;
-			cNode* temp = (cNode*)malloc(sizeof(cNode));
 			auto begin = std::chrono::steady_clock::now();
-			for (int i = 1; i < n; i++)
-			{
-				for (int j = i + 1; j < n; j++)
-				{
-					if (min->value>checker->value) //шукаємо менший елемент
-					{
-						min = checker;//пересуваємо вказівник до меншого елемента
-						checker = checker->next;//Змінну пошуку відправляєм далі
-					}
-					else checker = checker->next;//Якщо не знайшли менший, то змінну пошуку відправляєм далі
-				}
-				if (min->value < builder->value)//Тут перевіряєм, чи знайдений нами елемент менше першого
-				{
-					temp->value = builder->value;//значення більшого елемента запам'ятовуємо
-					builder->value = min->value;//на його місце ставимо той,що знайшли
-					min->value = temp->value;//присвоюємо змінній значення,за рахунок якого будем шукати наступний елемент
-				}
-				if (i < n - 1)//здвигаємо значення на 1 вперед
-				{
-					builder = builder->next;
-					min = builder->next;
-					checker = min->next;
-				}
+			for (int i = 0; i < n; i++) {
+				list[i] = a + rand() % (b - a + 1);
+				pushBack(mylist, &list[i]);
 			}
+			printList(mylist, printNode);
+			for (int i = 0; i < n - 1; i++)
+			{
+				min = i;    //позначаємо елемент як мінімальний
+					for (int j = i + 1; j < n; j++)
+						if (list[j] < list[min])
+							//порівнюємо мінімальний елемент з наступним, якщо наступний менший, то позначаємо його як мінімальний
+							min = j;
+				//проходимося по всім елементам, знаходимо найменший
+				c = list[i];
+				list[i] = list[min];
+				list[min] = c;
+			}
+			printf("\n\n---------- Відсортований зв'язний список ----------\n\n");
+			printList(mylist, printNode);
 			auto end = std::chrono::steady_clock::now();
-			auto result = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
-			printf("\n\nПісля сортування: { ");
-			printList(list, printNode);
-			printf("} \nЧас виконання сортування :%lld nanoS \n", result.count());
-			deleteList(list);
-			break;
+			auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+			printf("\nЧас сортування: %lld ms\n", elapsed_ms.count());
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 		}
+		break;
 		case 2:
 		{
+			auto begin = std::chrono::steady_clock::now();
 			for (int i = 0; i < n; i++)
-				arr[i] = 100 + rand() % (-100 - 100 + 1);
-			printf("До сортування: { ");
+				arr[i] = a + rand() % (b - a + 1);
 			for (int i = 0; i < n; i++)
-				printf("%2d   ", arr[i]);
-			printf(" }\n");
-			auto begin2 = std::chrono::steady_clock::now();
+				printf("%4d", arr[i]);
 			for (int i = 1; i < n; i++)
 			{
-				tmp = arr[i];//Беремо перший елемент масиву
-				for (int j = i - 1; j >= 0 && arr[j] > tmp; j--)//проходимо по елементам які стояли пред ним та перевіряємо, що цей елемент ще не менший ніж той, з яким порівнюємо
+				c = arr[i];
+				for (int j = i - 1; j >= 0 && arr[j] > c; j--)
 				{
-					arr[j + 1] = arr[j];//Тут преставляємо елемент tmp назад
-					arr[j] = tmp;//Переносимо елемент який ми переставили на місце того,що був менше його
+					arr[j + 1] = arr[j];//перебираємо масив і ставимо  елементи в правильному положенні  серед масиву
+					arr[j] = c;
 				}
 			}
-			auto end2 = std::chrono::steady_clock::now();
-			auto result2 = std::chrono::duration_cast<std::chrono::nanoseconds>(end2 - begin2);
-			printf("\n\nПісля сортування: { ");
+			printf("\n\n---------- Відсортований масив ----------\n\n");
 			for (int i = 0; i < n; i++)
-				printf("%2d   ", arr[i]);
-			printf(" }\n\n");
-			printf("Час виконання сортування:%lld nanoS\n", result2.count());
+				printf("%4d", arr[i]);
+			auto end = std::chrono::steady_clock::now();
+			auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+			printf("\nЧас сортування: %lld ms\n", elapsed_ms.count());
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 		}
 		break;
 		case 3:
 		{
-			cList2* list2 = createList2();
-			int arrlist[100000];
-			for (int i = 0; i < n; i++)
-			{
-				arrlist[i]= 100 + rand() % (-100 - 100 + 1);
-				pushBack2(list2, &arrlist[i]);
+			auto begin = std::chrono::steady_clock::now();
+			for (int i = 0; i < n; i++) {
+				list[i] = a + rand() % (b - a + 1);
+				pushBack(mylist2, &list[i]);
 			}
-			printf("До сортування: { ");
-			printList2(list2, printNode2);
-			printf(" }\n");
-			auto begin3 = std::chrono::steady_clock::now();
+			printList(mylist2, printNode);
 			for (int i = 1; i < n; i++)
 			{
-				tmp = arrlist[i];//Беремо перший елемент масиву
-				for (int j = i - 1; j >= 0 && arrlist[j] > tmp; j--)//проходим по елементам які стояли до цього
+				c = list[i];
+				for (int j = i - 1; j >= 0 && list[j] > c; j--)
 				{
-					arrlist[j + 1] = arrlist[j];//тут преставляємо елемент tmp
-					arrlist[j] = tmp;//Переносимо елемент який ми поставили на місце того,що був менше
+					list[j + 1] = list[j];//перебираємо список і ставимо  елементи в правильному положенні  серед списку
+
+					list[j] = c;
 				}
 			}
-			auto end3 = std::chrono::steady_clock::now();
-			auto result3 = std::chrono::duration_cast<std::chrono::nanoseconds>(end3 - begin3);
-			printf("\n\nПісля сортування: { ");
-			printList2(list2, printNode2);
-			printf(" }\n\n");
-			printf("Час виконання сортування:%lld nanoS\n", result3.count());
-			deleteList2(list2);
+			printf("\n\n---------- Відсортований зв'язний список ----------\n\n");
+			printList(mylist2, printNode);
+			auto end = std::chrono::steady_clock::now();
+			auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+			printf("\nЧас сортування: %lld ms\n", elapsed_ms.count());
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 		}
 		break;
 		case 4:
 			break;
-		default:{
-			printf("Помилка при введенні пунката меню\n");
 		}
-			   break;
-		}
-		if (num != 4)
+		if (variant != 10)
 			system("pause");
-	} while (num != 4);
-	return 0;
+
+	} while (variant != 4);
 }
